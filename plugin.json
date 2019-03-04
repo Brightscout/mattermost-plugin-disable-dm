@@ -12,12 +12,14 @@
                 "key": "RejectDMs",
                 "display_name": "Reject DMs:",
                 "type": "bool",
+                "default": true,
                 "help_text": "If set the plugin will reject direct messages."
             },
             {
                 "key": "RejectGroupChats",
                 "display_name": "Reject Group Chats:",
                 "type": "bool",
+                "default": true,
                 "help_text": "If set the plugin will reject messages sent to group chats."
             },
             {

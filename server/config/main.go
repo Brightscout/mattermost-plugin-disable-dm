@@ -2,19 +2,13 @@ package config
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/mattermost/mattermost-server/plugin"
 	"go.uber.org/atomic"
 )
 
 const (
-	CommandPrefix             = PluginName
-	URLMappingKeyPrefix       = "url_"
-	ServerExeToWebappRootPath = "/../webapp"
-
-	URLPluginBase = "/plugins/" + PluginName
-	URLStaticBase = URLPluginBase + "/static"
-
 	HeaderMattermostUserID = "Mattermost-User-Id"
 )
 
@@ -39,6 +33,8 @@ func SetConfig(c *Configuration) {
 
 func (c *Configuration) ProcessConfiguration() error {
 	// any post-processing on configurations goes here
+
+	c.RejectionMessage = strings.TrimSpace(c.RejectionMessage)
 
 	return nil
 }
