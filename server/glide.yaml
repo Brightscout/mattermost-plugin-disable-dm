@@ -1,0 +1,6 @@
+package: github.com/Brightscout/mattermost-plugin-disable-dm/server
+import:
+- package: github.com/mattermost/mattermost-server
+  version: ~5.8.0
+  subpackages:
+  - plugin
