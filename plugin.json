@@ -1,0 +1,36 @@
+{
+  "id": "disable-dm",
+  "version": "1.0.0",
+  "name": "Disable DM",
+  "description": "A Mattermost plugin to disable direct messages and group chats.",
+  "server": {
+    "executable": "server/plugin.exe"
+  },
+    "settings_schema": {
+        "settings": [
+            {
+                "key": "RejectDMs",
+                "display_name": "Reject DMs:",
+                "type": "bool",
+                "default": true,
+                "help_text": "If set the plugin will reject direct messages."
+            },
+            {
+                "key": "RejectGroupChats",
+                "display_name": "Reject Group Chats:",
+                "type": "bool",
+                "default": true,
+                "help_text": "If set the plugin will reject messages sent to group chats."
+            },
+            {
+                "key": "RejectionMessage",
+                "display_name": "Rejection Message:",
+                "type": "text",
+                "help_text": "Enter the message to display to users who try to send a direct message.",
+                "default": "Direct messages have been disabled by an administrator."
+            }
+        ],
+        "header": "",
+        "footer": ""
+    }
+}
