@@ -56,7 +56,7 @@ func (p *Plugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*mode
 
 	if channel.Type == model.CHANNEL_DIRECT && conf.RejectDMs {
 		config.Mattermost.SendEphemeralPost(post.UserId, &model.Post{
-			Message: conf.RejectionMessage,
+			Message:   conf.RejectionMessage,
 			ChannelId: post.ChannelId,
 		})
 		return nil, conf.RejectionMessage
@@ -64,7 +64,7 @@ func (p *Plugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*mode
 
 	if channel.Type == model.CHANNEL_GROUP && conf.RejectGroupChats {
 		config.Mattermost.SendEphemeralPost(post.UserId, &model.Post{
-			Message: conf.RejectionMessage,
+			Message:   conf.RejectionMessage,
 			ChannelId: post.ChannelId,
 		})
 		return nil, conf.RejectionMessage
