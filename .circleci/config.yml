@@ -1,0 +1,76 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.11-node
+    working_directory: /go/src/github.com/Brightscout/mattermost-plugin-disable-dm
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Golang dependencies cache
+          key: dependency-cache-{{ checksum "./server/glide.lock" }}
+      - restore_cache:
+          name: Restore NPM dependencies cache
+          key: dependency-cache-{{ checksum "./webapp/package-lock.json" }}
+      - type: shell
+        name: 'Build artifacts'
+        command: make dist
+        environment:
+            TERM: dumb
+      - save_cache:
+          name: Save Golang dependencies cache
+          key: dependency-cache-{{ checksum "./server/glide.lock" }}
+          paths:
+              - ./server/vendor
+      - save_cache:
+          name: Save NPM dependencies cache
+          key: dependency-cache-{{ checksum "./webapp/package-lock.json" }}
+          paths:
+              - ./webapp/node_modules
+      - store_artifacts:
+          path: ./dist
+          destination: build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+  release:
+    docker:
+      - image: circleci/golang:1.11-node
+    working_directory: /go/src/github.com/Brightscout/mattermost-plugin-disable-dm
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: go get -u github.com/tcnksm/ghr
+      - run: ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` dist/
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /.*/
+  build-and-release:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
+      - release:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
