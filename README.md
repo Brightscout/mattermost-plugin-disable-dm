@@ -41,3 +41,7 @@ This will also install, **Glide** - the Go package manager.
 - From **System Console > Plugins (Beta) > Management**, upload the plugin generated above based on the OS of your Mattermost server.
 - Once installed, open **System Console > Plugins (Beta) > Team Membership** in left-hand sidebar and configure the plugin settings.
 - Enable the plugin from **System Console > Plugins (Beta) > Management**.
+
+--
+
+Made with &#9829; by [Brightscout](http://www.brightscout.com)
