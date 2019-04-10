@@ -64,9 +64,10 @@ ifneq ($(HAS_SERVER),)
 		go get golang.org/x/tools/cmd/vet; \
 	fi
 	@echo ${BOLD}Running GOVET${RESET}
-	@cd server
-	$(eval PKGS := $(shell go list ./... | grep -v /vendor/))
-	@$(GO) vet -shadow $(PKGS)
+	@$(GO) get golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow
+	@$(eval PKGS := $(shell go list ./server/... | grep -v /vendor/))
+	@$(GO) vet $(PKGS)
+	@$(GO) vet -vettool=$(GOPATH)/bin/shadow $(PKGS)
 	@echo ${GREEN}"govet success\n"${RESET}
 endif
 
@@ -94,7 +95,7 @@ format: fix-js fix-go
 
 fix-js:
 ifneq ($(HAS_WEBAPP),)
-	@echo ${BOLD}Formatting js giles${RESET}
+	@echo ${BOLD}Formatting js files${RESET}
 	@cd webapp && npm run fix
 	@echo "formatted js files\n"
 endif
@@ -105,7 +106,7 @@ ifneq ($(HAS_SERVER),)
 		echo "--> installing goimports"; \
 		go get golang.org/x/tools/cmd/goimports; \
 	fi
-	@echo ${BOLD}Formatting go giles${RESET}
+	@echo ${BOLD}Formatting go files${RESET}
 	@cd server
 	@find ./ -type f -name "*.go" -not -path "./server/vendor/*" -exec goimports -w {} \;
 	@echo "formatted go files\n"
