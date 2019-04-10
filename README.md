@@ -5,7 +5,7 @@ A mattermost plugin to disable direct messages and group chats.
 #### Platform & tools
 - Make sure you have following components installed:
 
-  * Go - v1.11 - https://golang.org/doc/install
+  * Go - v1.12 - https://golang.org/doc/install
     > **Note:** If you have installed Go to a custom location, make sure the $GOROOT variable is set properly. Refer [Installing to a custom location](https://golang.org/doc/install#install).
 
   * NodeJS - v10.11 and NPM - v6.4.1 - https://docs.npmjs.com/getting-started/installing-node
