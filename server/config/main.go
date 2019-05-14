@@ -21,6 +21,7 @@ type Configuration struct {
 	RejectDMs        bool   `json:"RejectDMs"`
 	RejectGroupChats bool   `json:"RejectGroupChats"`
 	RejectionMessage string `json:"RejectionMessage"`
+	AllowedDomains   string `json:"AllowedDomains"`
 }
 
 func GetConfig() *Configuration {

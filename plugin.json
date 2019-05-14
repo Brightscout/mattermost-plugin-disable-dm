@@ -28,6 +28,13 @@
                 "type": "text",
                 "help_text": "Enter the message to display to users who try to send a direct message.",
                 "default": "Direct messages have been disabled by an administrator."
+            },
+            {
+                "key": "AllowedDomains",
+                "display_name": "Allowed Email Domains",
+                "type": "longtext",
+                "help_text": "Users with one of the domains (one per line) in this field never get their messages rejected.",
+                "default": ""
             }
         ],
         "header": "",
