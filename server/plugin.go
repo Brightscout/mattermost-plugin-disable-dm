@@ -1,6 +1,9 @@
 package main
 
 import (
+	"regexp"
+	"strings"
+
 	"github.com/mattermost/mattermost-server/model"
 	"github.com/mattermost/mattermost-server/plugin"
 
@@ -52,6 +55,23 @@ func (p *Plugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*mode
 	if appError != nil {
 		config.Mattermost.LogError("Failed to get channel for post: " + post.Id + " and channelId: " + post.ChannelId + ". Error: " + appError.Error())
 		return nil, ""
+	}
+
+	user, appError := config.Mattermost.GetUser(post.UserId)
+	if appError != nil {
+		config.Mattermost.LogError("Failed to get user for post: " + post.Id + " and userId: " + post.UserId + ". Error: " + appError.Error())
+		return nil, ""
+	}
+
+	if user.Email != "" {
+		config.Mattermost.LogInfo("Got User: " + user.Email)
+	}
+
+	for _, domain := range strings.Split(conf.AllowedDomains, "\n") {
+		domainRegex := regexp.MustCompile(`@` + domain + `$`)
+		if domainRegex.Match([]byte(user.Email)) {
+			return nil, ""
+		}
 	}
 
 	if (channel.Type == model.CHANNEL_DIRECT && conf.RejectDMs) || (channel.Type == model.CHANNEL_GROUP && conf.RejectGroupChats) {
